@@ -1043,14 +1043,14 @@ class Postgres extends ADODB_base {
 		$this->clean($c_schema);
 		$this->clean($table);
 
-		$sql = "SELECT relhasoids FROM pg_catalog.pg_class WHERE relname='{$table}'
+		$sql = "SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
 			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$c_schema}')";
 
 		$rs = $this->selectSet($sql);
 		if ($rs->recordCount() != 1) return null;
 		else {
-			$rs->fields['relhasoids'] = $this->phpBool($rs->fields['relhasoids']);
-			return $rs->fields['relhasoids'];
+			$rs->fields['oid'] = $this->phpBool($rs->fields['oid']);
+			return $rs->fields['oid'];
 		}
 	}
 
