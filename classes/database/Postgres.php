@@ -698,7 +698,7 @@ class Postgres extends ADODB_base {
 		if (!$conf['show_system']) {
 			// XXX: The mention of information_schema here is in the wrong place, but
 			// it's the quickest fix to exclude the info schema from 7.4
-			$where = " AND pn.nspname NOT LIKE \$_PATERN_\$pg\_%\$_PATERN_\$ AND pn.nspname != 'information_schema'";
+			$where = " AND pn.nspname NOT LIKE \$_PATTERN_\$pg\_%\$_PATTERN_\$ AND pn.nspname != 'information_schema'";
 			$lan_where = "AND pl.lanispl";
 		}
 		else {
@@ -712,7 +712,7 @@ class Postgres extends ADODB_base {
 			$sql = "SELECT * FROM (";
 		}
 
-		$term = "\$_PATERN_\$%{$term}%\$_PATERN_\$";
+		$term = "\$_PATTERN_\$%{$term}%\$_PATTERN_\$";
 
 		$sql .= "
 			SELECT 'SCHEMA' AS type, oid, NULL AS schemaname, NULL AS relname, nspname AS name
@@ -3126,7 +3126,7 @@ class Postgres extends ADODB_base {
 
 	/**
 	 * Updates a view.
-	 * @param $viewname The name fo the view to update
+	 * @param $viewname The name of the view to update
 	 * @param $definition The new definition for the view
 	 * @return 0 success
 	 * @return -1 transaction error
@@ -3557,7 +3557,7 @@ class Postgres extends ADODB_base {
 
 		// get the max number of col used in a constraint for the table
 		$sql = "SELECT DISTINCT
-			max(SUBSTRING(array_dims(c.conkey) FROM  \$patern\$^\\[.*:(.*)\\]$\$patern\$)) as nb
+			max(SUBSTRING(array_dims(c.conkey) FROM  \$pattern\$^\\[.*:(.*)\\]$\$pattern\$)) as nb
 		FROM pg_catalog.pg_constraint AS c
 			JOIN pg_catalog.pg_class AS r ON (c.conrelid=r.oid)
 			JOIN pg_catalog.pg_namespace AS ns ON (r.relnamespace=ns.oid)
@@ -7004,7 +7004,7 @@ class Postgres extends ADODB_base {
 	}
 
 	/**
-	 * Helper function that computes encypted PostgreSQL passwords
+	 * Helper function that computes encrypted PostgreSQL passwords
 	 * @param $username The username
 	 * @param $password The password
 	 */
