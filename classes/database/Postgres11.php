@@ -11,10 +11,6 @@ class Postgres11 extends Postgres {
 
 	var $major_version = 11;
 
-	// PG<=11 could have hidden OID columns
-	// This enables extra OID related GUI options (exports, ...)
-	var $supportOids = true;
-
 	/**
 	 * Constructor
 	 * @param $conn The database connection
@@ -23,11 +19,15 @@ class Postgres11 extends Postgres {
 		parent::__construct($conn);
 	}
 
-	// Help functions
+	/**
+	 * Returns the current default_with_oids setting
+	 * @return default_with_oids setting
+	 */
+	function getDefaultWithOid() {
 
-	function getHelpPages() {
-		include_once('./help/PostgresDoc11.php');
-		return $this->help_page;
+		$sql = "SHOW default_with_oids";
+
+		return $this->selectField($sql, 'default_with_oids');
 	}
 
     /**
@@ -51,6 +51,18 @@ class Postgres11 extends Postgres {
 			return $rs->fields['relhasoids'];
 		}
 	}
+
+
+	// Help functions
+
+	function getHelpPages() {
+		include_once('./help/PostgresDoc11.php');
+		return $this->help_page;
+	}
+
+
+	// Capabilities
+	function hasServerOids() { return true; }
 
 }
 ?>

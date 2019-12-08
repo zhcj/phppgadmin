@@ -165,10 +165,6 @@ class Postgres extends ADODB_base {
 	// The default type storage
 	var $typStorageDef = 'plain';
 
-	// PG <= 11 could have hidden OID columns
-	// This disables extra OID related GUI options (exports, ...)
-	var $supportOids = false;
-
 	/**
 	 * Constructor
 	 * @param $conn The database connection
@@ -523,10 +519,9 @@ class Postgres extends ADODB_base {
 	 * @return default_with_oids setting
 	 */
 	function getDefaultWithOid() {
-
-		$sql = "SHOW default_with_oids";
-
-		return $this->selectField($sql, 'default_with_oids');
+		// OID support was removed in PG12
+		// But this function is referenced when browsing data
+		return false;
 	}
 
 	/**
@@ -8076,6 +8071,7 @@ class Postgres extends ADODB_base {
 	function hasConcurrentIndexBuild() { return true; }
 	function hasForceReindex() { return false; }
 	function hasByteaHexDefault() { return true; } 
+	function hasServerOids() { return false; }
 	
 }
 ?>
