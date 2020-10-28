@@ -450,7 +450,7 @@ class Postgres extends ADODB_base {
 		if (isset($conf['owned_only']) && $conf['owned_only'] && !$this->isSuperUser()) {
 			$username = $server_info['username'];
 			$this->clean($username);
-			$clause = " AND pr.rolname='{$username}'";
+			$clause = " AND pg_has_role('{$username}'::name,pr.rolname,'USAGE')";
 		}
 		else $clause = '';
 
