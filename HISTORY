@@ -15,7 +15,7 @@ Features:
 Bugs:
 * Fix bug where sorting on selects dumped you to the table screen (MichaMEG)
 
-Incompatabilities:
+Incompatibilities:
 * This release drops support for PHP 7.1
 * This will be the last release to support PHP 7.2
 
