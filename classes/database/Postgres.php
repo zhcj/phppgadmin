@@ -1038,9 +1038,19 @@ class Postgres extends ADODB_base {
 	 * @return null error
 	 **/
 	function hasObjectID($table) {
-		// OID support is gone since PG12
-		// But that function is required by table exports
-		return false;
+		$c_schema = $this->_schema;
+		$this->clean($c_schema);
+		$this->clean($table);
+
+		$sql = "SELECT oid FROM pg_catalog.pg_class WHERE relname='{$table}'
+			AND relnamespace = (SELECT oid FROM pg_catalog.pg_namespace WHERE nspname='{$c_schema}')";
+
+		$rs = $this->selectSet($sql);
+		if ($rs->recordCount() != 1) return null;
+		else {
+			$rs->fields['oid'] = $this->phpBool($rs->fields['oid']);
+			return $rs->fields['oid'];
+		}
 	}
 
 	/**
