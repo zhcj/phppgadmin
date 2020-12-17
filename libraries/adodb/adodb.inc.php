@@ -426,11 +426,11 @@
 	
 	/**
 	 * Constructor
-	 */
 	function __construct()			
 	{
 		die('Virtual Class -- cannot instantiate');
 	}
+	 */
 	
 	static function Version()
 	{

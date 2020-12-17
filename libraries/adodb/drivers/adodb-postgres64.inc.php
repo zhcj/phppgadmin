@@ -166,7 +166,7 @@ a different OID if a database must be reloaded. */
    function _affectedrows()
    {
    		if (!is_resource($this->_resultid) || get_resource_type($this->_resultid) !== 'pgsql result') return false;
-	   	return pg_cmdtuples($this->_resultid);
+	   	return pg_affected_rows($this->_resultid);
    }
    
 	
